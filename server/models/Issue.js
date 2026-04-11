@@ -1,5 +1,11 @@
 const mongoose = require("mongoose");
 
+const commentSchema = new mongoose.Schema({
+  user: { type: String, required: true },
+  text: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now },
+});
+
 const issueSchema = new mongoose.Schema(
   {
     title: {
@@ -17,7 +23,6 @@ const issueSchema = new mongoose.Schema(
       required: true,
     },
 
-
     location: {
       type: {
         type: String,
@@ -25,7 +30,7 @@ const issueSchema = new mongoose.Schema(
         default: "Point",
       },
       coordinates: {
-        type: [Number], 
+        type: [Number],
         required: true,
       },
       address: String,
@@ -43,10 +48,20 @@ const issueSchema = new mongoose.Schema(
     },
 
     image: String,
+
     reportedBy: {
-      type: String,
+      type: mongoose.Schema.Types.Mixed,
       default: "anonymous",
     },
+
+    upvotes: {
+      type: Number,
+      default: 0,
+    },
+
+    upvotedBy: [String],
+
+    comments: [commentSchema],
   },
   { timestamps: true }
 );
